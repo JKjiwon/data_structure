@@ -106,4 +106,17 @@ class LinkedListTest {
         assertThat(list.contains(2)).isFalse();
         assertThat(list.toString()).isEqualTo("[1, 3]");
     }
+
+    @Test
+    void search() {
+        // given
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+
+        // when && then
+        assertThat(list.search(3)).isEqualTo(2);
+        assertThat(list.search(5)).isEqualTo(-1);
+    }
 }

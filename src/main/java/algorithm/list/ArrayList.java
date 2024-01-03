@@ -93,6 +93,16 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
+    public int search(E element) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

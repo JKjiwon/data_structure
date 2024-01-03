@@ -121,6 +121,20 @@ public class LinkedList<E> implements List<E> {
     }
 
     @Override
+    public int search(E element) {
+        Node<E> current = head;
+
+        for (int i = 0; i < size; i++) {
+            if (current.data.equals(element)) {
+                return i;
+            }
+            current = current.next;
+        }
+
+        return -1;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Node<E> current = head;

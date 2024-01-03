@@ -17,4 +17,6 @@ public interface List<E> {
     boolean contains(E element);
 
     void clear();
+
+    int search(E element);
 }
