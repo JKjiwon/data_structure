@@ -15,4 +15,6 @@ public interface List<E> {
     boolean add(int index, E element);
 
     boolean contains(E element);
+
+    void clear();
 }

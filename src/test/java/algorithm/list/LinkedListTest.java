@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ArrayListTest {
-    List<Integer> list = new ArrayList<>();
+class LinkedListTest {
+    List<Integer> list = new LinkedList<>();
 
     @BeforeEach
     void init() {
@@ -43,6 +43,25 @@ class ArrayListTest {
         assertThat(list.contains(3)).isTrue();
         assertThat(list.contains(4)).isTrue();
         assertThat(list.toString()).isEqualTo("[1, 4, 3, 2]");
+    }
+
+    @Test
+    void add_at2() {
+        // given
+        list.add(1);
+        list.add(2);
+
+        // when
+        list.add(2, 3);
+        list.add(4);
+
+        // then
+        assertThat(list.size()).isEqualTo(4);
+        assertThat(list.contains(1)).isTrue();
+        assertThat(list.contains(2)).isTrue();
+        assertThat(list.contains(3)).isTrue();
+        assertThat(list.contains(4)).isTrue();
+        assertThat(list.toString()).isEqualTo("[1, 2, 3, 4]");
     }
 
     @Test

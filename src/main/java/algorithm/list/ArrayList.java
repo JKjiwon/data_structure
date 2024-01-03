@@ -32,6 +32,10 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
+        if (index < 0 && index >= size) {
+            return null;
+        }
+
         return array[index];
     }
 
@@ -81,6 +85,11 @@ public class ArrayList<E> implements List<E> {
             }
         }
         return false;
+    }
+
+    @Override
+    public void clear() {
+        size = 0;
     }
 
     @Override
