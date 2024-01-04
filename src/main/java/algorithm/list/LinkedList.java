@@ -17,48 +17,97 @@ public class LinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E element) {
-        Node<E> node = new Node<>(element);
-        size++;
-        if (head == null) {
-            head = node;
-            tail = head;
-            return true;
-        }
+        return add(size, element);
+    }
 
-        tail.next = node;
-        tail = node;
-        return true;
+    public boolean addFirst(E element) {
+        return add(0, element);
+    }
+
+    public boolean addLast(E element) {
+        return add(size, element);
     }
 
     @Override
     public boolean add(int index, E element) {
-        Node<E> node = new Node<>(element);
-        size++;
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node<E> newNode = new Node<>(element);
 
         if (head == null) {
-            head = node;
+            head = newNode;
             tail = head;
+            size++;
             return true;
         }
 
         if (index == 0) {
-            node.next = head;
-            head = node;
+            head.prev = newNode;
+            newNode.next = head;
+            head = newNode;
+            size++;
+            return true;
+        }
+
+        // 마지막
+        if (index == size) {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+            size++;
+            return true;
+        }
+
+        // 가운데
+        Node<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        Node<E> prevNode = current.prev;
+
+        newNode.next = current;
+        newNode.prev = current.prev;
+
+        prevNode.next = newNode;
+        current.prev = newNode;
+        size++;
+
+        return true;
+    }
+
+    @Override
+    public boolean remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (index == 0) {
+            head = head.next;
+            head.prev = null;
+            size--;
+            return true;
+        }
+
+        if (index == size - 1) {
+            tail = tail.prev;
+            tail.next = null;
+            size--;
             return true;
         }
 
         Node<E> current = head;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < index; i++) {
             current = current.next;
         }
 
-        node.next = current.next;
-        current.next = node;
-
-
-        if (node.next == null) {
-            tail = node;
-        }
+        Node<E> prevNode = current.prev;
+        Node<E> nextNode = current.next;
+        prevNode.next = nextNode;
+        nextNode.prev = prevNode;
+        size--;
 
         return true;
     }
@@ -75,26 +124,6 @@ public class LinkedList<E> implements List<E> {
         }
 
         return current.data;
-    }
-
-    @Override
-    public boolean remove(int index) {
-        if (index < 0 && index >= size) {
-            return false;
-        }
-        size--;
-        if (index == 0) {
-            head = head.next;
-            return true;
-        }
-
-        Node<E> current = head;
-        for (int i = 0; i < index - 1; i++) {
-            current = current.next;
-        }
-        current.next = current.next.next;
-
-        return true;
     }
 
     @Override
@@ -152,12 +181,23 @@ public class LinkedList<E> implements List<E> {
         return sb.toString();
     }
 
-    static class Node<E> {
+    public static class Node<E> {
         private E data;
         private Node<E> next;
 
+        private Node<E> prev;
+
         public Node(E data) {
             this.data = data;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + data +
+                    ", next=" + next +
+                    ", prev=" + prev +
+                    '}';
         }
     }
 }

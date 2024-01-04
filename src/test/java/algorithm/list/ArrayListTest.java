@@ -4,9 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ArrayListTest {
-    List<Integer> list = new ArrayList<>();
+    ArrayList<Integer> list = new ArrayList<>();
 
     @BeforeEach
     void init() {
@@ -24,6 +25,20 @@ class ArrayListTest {
         assertThat(list.contains(1)).isTrue();
         assertThat(list.contains(2)).isTrue();
         assertThat(list.toString()).isEqualTo("[1, 2]");
+    }
+
+    @Test
+    void add_minus_index() {
+        assertThatThrownBy(() -> list.add(-1, 2))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void add_over_index() {
+        list.add(1);
+        list.add(2);
+        assertThatThrownBy(() -> list.add(3, 3))
+                .isInstanceOf(IndexOutOfBoundsException.class);
     }
 
     @Test
@@ -70,6 +85,20 @@ class ArrayListTest {
         assertThat(list.size()).isEqualTo(2);
         assertThat(list.contains(3)).isFalse();
         assertThat(list.toString()).isEqualTo("[1, 2]");
+    }
+
+    @Test
+    void remove_minus_index() {
+        assertThatThrownBy(() -> list.remove(-1))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void remove_over_index() {
+        list.add(1);
+        list.add(2);
+        assertThatThrownBy(() -> list.remove(3))
+                .isInstanceOf(IndexOutOfBoundsException.class);
     }
 
     @Test

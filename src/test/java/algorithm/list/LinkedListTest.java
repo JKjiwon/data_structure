@@ -4,9 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LinkedListTest {
-    List<Integer> list = new LinkedList<>();
+    LinkedList<Integer> list = new LinkedList<>();
 
     @BeforeEach
     void init() {
@@ -27,14 +28,28 @@ class LinkedListTest {
     }
 
     @Test
+    void add_minus_index() {
+        assertThatThrownBy(() -> list.add(-1, 2))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void add_over_index() {
+        list.add(1);
+        list.add(2);
+        assertThatThrownBy(() -> list.add(3, 3))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
     void add_at() {
         // given
         list.add(1);
         list.add(2);
 
         // when
-        list.add(1, 3);
-        list.add(1, 4);
+        list.add(1, 3); // 1, 3, 2
+        list.add(1, 4); // 1, 4, 3, 2
 
         // then
         assertThat(list.size()).isEqualTo(4);
@@ -92,6 +107,20 @@ class LinkedListTest {
     }
 
     @Test
+    void remove_minus_index() {
+        assertThatThrownBy(() -> list.remove(-1))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void remove_over_index() {
+        list.add(1);
+        list.add(2);
+        assertThatThrownBy(() -> list.remove(3))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
     void remove_at() {
         //given
         list.add(1);
@@ -118,5 +147,53 @@ class LinkedListTest {
         // when && then
         assertThat(list.search(3)).isEqualTo(2);
         assertThat(list.search(5)).isEqualTo(-1);
+    }
+
+    @Test
+    void remove_and_add1() {
+        list.add(1);
+        list.add(2);
+        list.remove();
+        list.add(3);
+
+        assertThat(list.size()).isEqualTo(2);
+        assertThat(list.contains(2)).isFalse();
+        assertThat(list.toString()).isEqualTo("[1, 3]");
+    }
+
+    @Test
+    void remove_and_add2() {
+        list.add(1);
+        list.add(2);
+        list.remove(0);
+        list.add(3);
+
+        assertThat(list.size()).isEqualTo(2);
+        assertThat(list.contains(1)).isFalse();
+        assertThat(list.toString()).isEqualTo("[2, 3]");
+    }
+
+    @Test
+    void remove_and_add3() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.remove(1);
+        list.add(4);
+
+        assertThat(list.size()).isEqualTo(3);
+        assertThat(list.contains(2)).isFalse();
+        assertThat(list.toString()).isEqualTo("[1, 3, 4]");
+    }
+
+    @Test
+    void add_first_and_last() {
+        list.add(1);
+        list.add(2);
+        list.addFirst(0);
+        list.addLast(3);
+
+        assertThat(list.size()).isEqualTo(4);
+        assertThat(list.toString()).isEqualTo("[0, 1, 2, 3]");
     }
 }
