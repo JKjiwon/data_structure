@@ -180,7 +180,7 @@ public class LinkedList<E> implements List<E>, Queue<E> {
         if (size == 0) {
             throw new IndexOutOfBoundsException();
         }
-        return tail.data;
+        return head.data;
     }
 
     @Override
@@ -204,7 +204,7 @@ public class LinkedList<E> implements List<E>, Queue<E> {
     @Override
     public E poll() {
         E element = peek();
-        remove(size - 1);
+        remove(0);
         return element;
     }
 
