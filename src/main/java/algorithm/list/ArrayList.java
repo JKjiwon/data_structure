@@ -74,9 +74,14 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean contains(E element) {
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public boolean contains(Object o) {
         for (int i = 0; i < size; i++) {
-            if (array[i].equals(element)) {
+            if (array[i].equals(o)) {
                 return true;
             }
         }

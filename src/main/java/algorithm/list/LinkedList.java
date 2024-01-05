@@ -1,6 +1,6 @@
 package algorithm.list;
 
-public class LinkedList<E> implements List<E> {
+public class LinkedList<E> implements List<E>, Queue<E> {
 
     private Node<E> head;
     private Node<E> tail;
@@ -131,17 +131,6 @@ public class LinkedList<E> implements List<E> {
         return remove(size - 1);
     }
 
-    @Override
-    public boolean contains(E element) {
-        Node<E> current = head;
-        for (int i = 0; i < size; i++) {
-            if (current.data.equals(element)) {
-                return true;
-            }
-            current = current.next;
-        }
-        return false;
-    }
 
     @Override
     public void clear() {
@@ -179,6 +168,44 @@ public class LinkedList<E> implements List<E> {
         sb.append("]");
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean offer(E e) {
+        return addLast(e);
+    }
+
+    @Override
+    public E peek() {
+        if (size == 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        return tail.data;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    @Override
+    public boolean contains(Object element) {
+
+        Node<E> current = head;
+        for (int i = 0; i < size; i++) {
+            if (current.data.equals(element)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    @Override
+    public E poll() {
+        E element = peek();
+        remove(size - 1);
+        return element;
     }
 
     public static class Node<E> {

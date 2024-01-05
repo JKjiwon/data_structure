@@ -1,10 +1,7 @@
 package algorithm.list;
 
-public interface List<E> {
+public interface List<E> extends Collection<E> {
 
-    int size();
-
-    boolean add(E element);
 
     E get(int index);
 
@@ -13,10 +10,6 @@ public interface List<E> {
     boolean remove();
 
     boolean add(int index, E element);
-
-    boolean contains(E element);
-
-    void clear();
 
     int search(E element);
 }
