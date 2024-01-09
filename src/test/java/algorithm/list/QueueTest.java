@@ -48,6 +48,19 @@ class QueueTest {
     }
 
     @Test
+    void poll2() {
+        //given
+        queue.offer(1);
+        queue.poll();
+        queue.offer(3);
+
+        // then
+        assertThat(queue.size()).isEqualTo(1);
+        assertThat(queue.contains(1)).isFalse();
+        assertThat(queue.toString()).isEqualTo("[3]");
+    }
+
+    @Test
     void peek() {
         queue.offer(1);
         queue.offer(2);

@@ -86,7 +86,9 @@ public class LinkedList<E> implements List<E>, Queue<E> {
 
         if (index == 0) {
             head = head.next;
-            head.prev = null;
+            if (head != null) {
+                head.prev = null;
+            }
             size--;
             return true;
         }
